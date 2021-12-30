@@ -1,0 +1,33 @@
+###
+GET http://localhost:8080/send/staff/robin HTTP/1.1
+
+
+#### NOT IN USE
+GET http://localhost:8080/send/primary.staff/robin-h1 HTTP/1.1
+
+###
+GET http://localhost:8080/send/replica.staff/robin-h1 HTTP/1.1
+
+
+
+####
+GET http://localhost:8080/send/task/robin-h1 HTTP/1.1
+
+
+#### NOT IN USE
+GET http://localhost:8080/send/primary.task/task-primary HTTP/1.1
+
+####
+GET http://localhost:8080/send/replica.task/task-replica HTTP/1.1
+
+
+####
+GET http://localhost:8080/failover HTTP/1.1
+
+
+####
+GET http://localhost:8080/switch/primary HTTP/1.1
+
+
+####
+GET http://localhost:8080/switch/replica HTTP/1.1
