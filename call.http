@@ -31,3 +31,7 @@ GET http://localhost:8080/switch/primary HTTP/1.1
 
 ####
 GET http://localhost:8080/switch/replica HTTP/1.1
+
+
+####
+GET http://localhost:8080/actuator/health HTTP/1.1
