@@ -57,6 +57,8 @@ public class ClusterSwitch {
 
         registry.start();
         for(MessageListenerContainer listener : registry.getListenerContainers() ){
+            //need to add code to drain the messages from the replica topic first in the new cluster it switch too. Before listening to message of the topic itself.
+
            listener.start();
         }
         producer.reset();
