@@ -62,7 +62,9 @@ public class BrokerHealthcheck {
 		this.brokerProperties = new HashMap<>(admin.getConfigurationProperties());
 		this.brokerProperties.put(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG, Integer.parseInt(factory.getContainerProperties().getIdleEventInterval().toString()));
 		this.brokerProperties.put(AdminClientConfig.RECONNECT_BACKOFF_MS_CONFIG, 10000);
-		this.brokerProperties.put("bootstrap.servers", ClusterSwitch.getInstance().getCurentActiveBrokerUrl());
+		this.brokerProperties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, ClusterSwitch.getInstance().getCurentActiveBrokerUrl());
+
+		
 	}
 
 	//** UTILITIES *********************** */
@@ -92,8 +94,6 @@ public class BrokerHealthcheck {
 			return;
 		}
 
-	
-
 		if( event.getListenerId().startsWith(this.getListenTo()) ){
 			log.info("@@ - start to perform failover check");
 
@@ -101,9 +101,10 @@ public class BrokerHealthcheck {
 
 				DescribeClusterResult describeCluster = client.describeCluster();
 				String cluster = describeCluster.clusterId().get(10,  TimeUnit.SECONDS);
-				log.info("Broker [REACHABLE]: " + cluster);
 
+				log.info("Broker [REACHABLE]: " + cluster);
 				log.info("Broker [CHECK FOR]: " + cluster);
+
 				Collection<Node> nodes = describeCluster.nodes().get(10, TimeUnit.SECONDS);
 				if(nodes.size() < this.minNodeAvailable){
 					log.warn("Broker [CHECK NODE] : Cluster Does not meet min node size of %s current active node size %s ", this.minNodeAvailable , nodes.size());

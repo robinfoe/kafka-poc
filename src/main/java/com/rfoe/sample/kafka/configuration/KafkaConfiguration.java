@@ -55,7 +55,8 @@ public class KafkaConfiguration {
         Map<String, Object> configs = new HashMap<>();
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-
+        configs.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG,"20000");
+        
         DefaultKafkaProducerFactory<Object, Object> pf = new DefaultKafkaProducerFactory<Object, Object>(configs);
         pf.setBootstrapServersSupplier(ClusterSwitch.getInstance().getSwitch());
         return pf;
@@ -66,9 +67,10 @@ public class KafkaConfiguration {
         Map<String, Object> configs = new HashMap<>();
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configs.put("enable.auto.commit","true");
-        configs.put("auto.commit.interval.ms","1000");
-        configs.put("reconnect.backoff.ms","10000");
+        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,"true");
+        configs.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG ,"1000");
+        configs.put(ConsumerConfig.RECONNECT_BACKOFF_MS_CONFIG,"10000");
+
 
         DefaultKafkaConsumerFactory<Object, Object> cf = new DefaultKafkaConsumerFactory<Object, Object>(configs);
 		cf.setBootstrapServersSupplier(ClusterSwitch.getInstance().getSwitch());

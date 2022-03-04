@@ -1,0 +1,3 @@
+PRODUCER keyed-message
+topic: primary.staff
+failover-procedure122345678

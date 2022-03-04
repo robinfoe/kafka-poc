@@ -1,8 +1,6 @@
 package com.rfoe.sample.kafka.cluster.factory;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.rfoe.sample.kafka.cluster.config.ClusterSwitch;
 
@@ -29,18 +27,7 @@ public class CustomKafkaListenerContainerFactory<K, V> extends ConcurrentKafkaLi
 
 		@SuppressWarnings("all")
 		MethodKafkaListenerEndpoint<K,V> ep  = (MethodKafkaListenerEndpoint) endpoint;
-
-        // log.info("stepped.... " + ep.getGroup());
-        List<String> listenTopics = new ArrayList<String>();
-        for(Object item : ep.getTopics()){
-            String currTopic = (String) item;
-
-            // for every topic should have switch to other topic
-            listenTopics.add(currTopic);
-			listenTopics.add(ClusterSwitch.getInstance().generateSiteReplicationTopicName(currTopic));
-        }
-
-        ep.setTopics(listenTopics.toArray(new String[0]));
+		ClusterSwitch.getInstance().addEndpoint(ep);
 
 		TopicPartitionOffset[] topicPartitions = endpoint.getTopicPartitionsToAssign();
 		if (topicPartitions != null && topicPartitions.length > 0) {
